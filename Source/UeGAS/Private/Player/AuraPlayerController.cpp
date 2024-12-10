@@ -61,5 +61,51 @@ void AAuraPlayerController::CursorTrace()
 	if (!CursorHit.bBlockingHit) return;
 	LastActor = ThisActor;
 	ThisActor = Cast<IEnemyInterface>(CursorHit.GetActor());
+	/**
+	* A. LastActor无效并且ThisActor无效
+	*	-什么都不做
+	* B. LastActor无效并且ThisActor有效
+	*	-高亮显示ThisActor
+	* C. LastActor有效并且ThisActor无效
+	*	-取消LastActor高亮显示
+	* D. 两个都有效但两个不同
+	*	-取消LastActor高亮显示，高亮显示ThisActor
+	* E. 两个都有效并且两个相同
+	*	-什么都不做
+	*/
+	if (LastActor == nullptr)
+	{
+		if (ThisActor != nullptr)
+		{
+			//Case B
+			ThisActor->HighlightActor();
+		}
+		else
+		{
+			//Case A, Do nothing
+		}
+	}
+	else //LastAcor is valid
+	{
+		if (ThisActor == nullptr)
+		{
+			//Case C
+			LastActor->UnHighlightActor();
+		}
+		else//Both are valid
+		{
+			if (LastActor != ThisActor)
+			{
+				//Case D
+				LastActor->UnHighlightActor();
+				ThisActor->HighlightActor();
+			}
+			else
+			{
+				//Case E
+			}
+
+		}
+	}
 
 }
