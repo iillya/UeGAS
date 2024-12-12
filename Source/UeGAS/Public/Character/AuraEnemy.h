@@ -17,7 +17,12 @@ class UEGAS_API AAuraEnemy : public AAuraCharacterBase,public IEnemyInterface
 	GENERATED_BODY()
 public:
 	AAuraEnemy();
+	
+	
+	/** EnemyInterface */
 	virtual  void HighlightActor();
 	virtual  void UnHighlightActor();
-	
+	/** End EnemyInterface */
+protected:
+	virtual void BeginPlay() override;
 };
