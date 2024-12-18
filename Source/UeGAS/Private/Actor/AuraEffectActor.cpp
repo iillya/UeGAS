@@ -35,5 +35,13 @@ void AAuraEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGam
 
 }
 
+void AAuraEffectActor::OnOverlay(AActor* TargetActor)
+{
+}
+
+void AAuraEffectActor::OnEndOverlay(AActor* TargetActor)
+{
+}
+
 
 
