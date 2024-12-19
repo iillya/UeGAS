@@ -3,13 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
-
+#include "GameplayEffectTypes.h"
 #include "GameFramework/Actor.h"
 #include "AuraEffectActor.generated.h"
 
 class USphereComponent;
 class UGameplayEffect;
-
+class UAbilitySystemComponent;
 UENUM(BlueprintType)
 enum class EEffectApplicationPolicy : uint8
 {
@@ -72,7 +72,10 @@ protected:
 
 	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="AppliedEffects")
 	EEffectRemovalPolicy InfiniteEffectRemovalPolicy = EEffectRemovalPolicy::RemoveOnEndOverlap;
+
+
 	
+	TMap<FActiveGameplayEffectHandle,UAbilitySystemComponent*> ActiveEffectHandles;
 private:
 
 
