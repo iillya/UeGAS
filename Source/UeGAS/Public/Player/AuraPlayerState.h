@@ -22,8 +22,9 @@ public:
 	UAttributeSet* GetAttributeSet(){return AttributeSet;}
 
 protected:
-	UPROPERTY()
+	UPROPERTY(visibleAnywhere)
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
+	
 	UPROPERTY()
 	TObjectPtr<UAttributeSet> AttributeSet;
 	
