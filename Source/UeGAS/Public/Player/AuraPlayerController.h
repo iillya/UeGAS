@@ -4,11 +4,17 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "gameplaytags.h"
 #include "AuraPlayerController.generated.h"
+
+
+class UAuraInputConfig;
 class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
 class IEnemyInterface;
+class UAuraAbilitySystemComponent;
+
 /**
  * 
  */
@@ -32,5 +38,16 @@ private:
 	void CursorTrace();
 	IEnemyInterface* LastActor;
 	IEnemyInterface* ThisActor;
+
+	void AbilityInputTagPressed(FGameplayTag InputTag);
+	void AbilityInputTagReleased(FGameplayTag ReleasedTag);
+	void AbilityInputTagHeld(FGameplayTag HeldTag);
 	
+	UPROPERTY(EditDefaultsOnly,category="Input")
+	TObjectPtr<UAuraInputConfig> InputConfig;
+
+	UPROPERTY()
+	TObjectPtr<UAuraAbilitySystemComponent> AuraAbilitySystemComponent;
+
+	UAuraAbilitySystemComponent* GetASC();
 };

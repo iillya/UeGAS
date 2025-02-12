@@ -23,8 +23,7 @@ UOverlayWidgetController* UAuraAbilitySystemLibrary::GetOverlayWidgetController(
 	return nullptr;
 }
 
-UAttributeMenuWidgetController* UAuraAbilitySystemLibrary::GetAttributeMenuWidgetController(
-	const UObject* WorldContextObject)
+UAttributeMenuWidgetController* UAuraAbilitySystemLibrary::GetAttributeMenuWidgetController(const UObject* WorldContextObject)
 {
 	if (APlayerController* PC = UGameplayStatics::GetPlayerController(WorldContextObject,0))
 	{
