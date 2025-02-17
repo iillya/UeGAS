@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
 #include "gameplaytags.h"
+
+
 #include "AuraPlayerController.generated.h"
 
 
@@ -31,9 +33,18 @@ protected:
 private:
 	UPROPERTY(EditAnywhere,Category="Input")
 	TObjectPtr<UInputMappingContext> AuraContext;
+
 	UPROPERTY(EditAnywhere,Category="Input")
 	TObjectPtr<UInputAction> MoveAction;
+
+	UPROPERTY(EditAnywhere,Category="Input")
+	TObjectPtr<UInputAction> ShiftAction;
+	
 	void Move(const FInputActionValue& InputActionValue);
+
+	void ShiftPressed() {bShiftKeyDown = true;}
+	void ShiftReleased() {bShiftKeyDown = false;}
+	bool bShiftKeyDown = false;
 	
 	void CursorTrace();
 	IEnemyInterface* LastActor;
