@@ -43,5 +43,5 @@ public:
 	UPROPERTY(EditDefaultsOnly,Category = "Class Defaults")
 	TSubclassOf<UGameplayEffect> VitalAttribute;
 
-	FCharacterClassDefailtInfo GetCharacterClassInfo(ECharacterClass CharacterClass);
+	FCharacterClassDefailtInfo GetClassDefaultInfo(ECharacterClass CharacterClass);
 };
