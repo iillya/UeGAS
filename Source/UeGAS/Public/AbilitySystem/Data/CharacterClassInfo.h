@@ -43,5 +43,8 @@ public:
 	UPROPERTY(EditDefaultsOnly,Category = "Class Defaults")
 	TSubclassOf<UGameplayEffect> VitalAttribute;
 
+	UPROPERTY(EditDefaultsOnly,Category = "Common Class Defaults")
+	TArray<TSubclassOf<UGameplayAbility>> CommonAbilities;
+	
 	FCharacterClassDefailtInfo GetClassDefaultInfo(ECharacterClass CharacterClass);
 };
