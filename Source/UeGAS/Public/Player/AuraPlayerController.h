@@ -10,6 +10,7 @@
 #include "AuraPlayerController.generated.h"
 
 
+class UDamageTextComponent;
 class UAuraInputConfig;
 class UInputMappingContext;
 class UInputAction;
@@ -27,6 +28,9 @@ class UEGAS_API AAuraPlayerController : public APlayerController
 public:
 	virtual void PlayerTick(float DeltaTime) override;
 	AAuraPlayerController();
+
+	UFUNCTION(Client,Reliable)
+	void ShowDamageNumber(float DamageAmount,AActor* TargetCharacter);
 protected:
 	virtual void BeginPlay() override;
 	virtual  void SetupInputComponent() override;
@@ -76,4 +80,7 @@ private:
 	TObjectPtr<USplineComponent> Spline;
 
 	void AutoRun();
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UDamageTextComponent> DamageTextComponentClass;
 };
