@@ -45,7 +45,7 @@ AAuraPlayerController::AAuraPlayerController()
 	Spline = CreateDefaultSubobject<USplineComponent>("Spline");
 }
 
-void AAuraPlayerController::ShowDamageNumber_Implementation(float DamageAmount,AActor* TargetCharacter)
+void AAuraPlayerController::ShowDamageNumber_Implementation(float DamageAmount,AActor* TargetCharacter, bool bBlockedHit, bool bCriticalHit)
 {
 	if (IsValid(TargetCharacter) and DamageTextComponentClass)
 	{
@@ -53,7 +53,7 @@ void AAuraPlayerController::ShowDamageNumber_Implementation(float DamageAmount,A
 		DamageText->RegisterComponent();
 		DamageText->AttachToComponent(TargetCharacter->GetRootComponent(),FAttachmentTransformRules::KeepRelativeTransform);
 		DamageText->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
-		DamageText->SetDamageText(DamageAmount);
+		DamageText->SetDamageText(DamageAmount,bBlockedHit,bCriticalHit);
 	}
 }
 
