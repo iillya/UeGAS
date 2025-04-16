@@ -67,6 +67,11 @@ void UExeCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecutio
 	EvaluateParameters.TargetTags = TargetTags;
 
 	float Damage = Spec.GetSetByCallerMagnitude(FAuraGameplayTags::Get().Damage);
+	for (const auto& Pair : FAuraGameplayTags::Get().DamageTypesToResistance)
+	{
+		const float DamageTypeValue = Spec.GetSetByCallerMagnitude(Pair.Key);
+		Damage += DamageTypeValue;
+	}
 
 	float TargetBlockChance = 0.f;
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().BlockChanceDef,EvaluateParameters,TargetBlockChance);
