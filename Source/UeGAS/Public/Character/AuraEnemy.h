@@ -30,8 +30,8 @@ public:
 	/** End EnemyInterface */
 	
 	/** CombatInterface */
-	virtual int32 GetPlayerLevel() override;
 	virtual void Die() override;
+	virtual int32 GetPlayerLevel() override;
 	virtual  void SetCombatTarget_Implementation(AActor* InCombatTarget) override;
 	virtual  AActor* GetCombatTarget_Implementation() const override;
 	/**End CombatInterface */
@@ -47,7 +47,7 @@ public:
 	UPROPERTY(BlueprintReadOnly,category = "Combat")
 	bool bHitReacting;
 	
-	UPROPERTY(BlueprintReadOnly,category = "Combat")
+	UPROPERTY(EditAnywhere,BlueprintReadOnly,category = "Combat")
 	float BaseWalkSpeed = 250.f;
 
 	UPROPERTY(EditAnywhere,BlueprintReadOnly,category = "Combat")
