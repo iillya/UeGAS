@@ -30,6 +30,6 @@ protected:
 
 	UFUNCTION(BlueprintPure,BlueprintCallable)
 	FTaggedMontage GetRandomTaggedMontageFromArray(const TArray<FTaggedMontage>& TaggedMontages);
-
+	
 	TArray<FGameplayTag> DamageTypeTags;
 };

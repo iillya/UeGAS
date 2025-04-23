@@ -5,6 +5,7 @@
 
 #include "AbilitySystemBlueprintLibrary.H"
 #include "AbilitySystemComponent.h"
+#include "VisualizeTexture.h"
 #include "Actor/AuraProjectile.h"
 #include "Interaction/CombatInterface.h"
 #include  "UeGAS/Public/AuraGameplayTags.h"
@@ -50,22 +51,20 @@ void UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocati
 
 	const FGameplayEffectSpecHandle SpecHandle = SourceASC->MakeOutgoingSpec(DamageEffectClass,GetAbilityLevel(),EffectContextHandle);
 	const FAuraGameplayTags GameplayTags = FAuraGameplayTags::Get();
-	
 
-	TArray<FGameplayTag> DamageTypeKeys;
-	DamageTypes.GenerateKeyArray(DamageTypeKeys);
-	TArray<FScalableFloat> DamageTypeValues;
-	DamageTypes.GenerateValueArray(DamageTypeValues);
-	for (const auto& DamageTypeTag : DamageTypeTags)
+	
+	for (auto DamageTypeTag : DamageTypeTags)
 	{
-		int32 Index = DamageTypeKeys.Find(DamageTypeTag);
-		if ( Index > -1)
+		if (DamageTypes.Find(DamageTypeTag) != nullptr)
 		{
-			const float ScaledDamage = DamageTypeValues[Index].GetValueAtLevel(GetAbilityLevel());
+			const float ScaledDamage = DamageTypes.Find(DamageTypeTag)->GetValueAtLevel(GetAbilityLevel());
 			UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle,DamageTypeTag,ScaledDamage);
-			continue;
 		}
-		UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle,DamageTypeTag,0.f);
+		else
+		{
+			UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle,DamageTypeTag,0.f);
+		}
+		//GEngine->AddOnScreenDebugMessage(-1,2,FColor::Red,FString::Printf(TEXT("%s"),*DamageTypeTag.ToString()));
 	}
 	
 	Projectile->DamageEffectSpecHandle = SpecHandle;
