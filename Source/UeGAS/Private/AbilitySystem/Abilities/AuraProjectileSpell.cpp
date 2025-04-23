@@ -10,6 +10,7 @@
 #include  "UeGAS/Public/AuraGameplayTags.h"
 
 
+
 void UAuraProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Handle,
                                            const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo,
                                            const FGameplayEventData* TriggerEventData)
@@ -50,12 +51,22 @@ void UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocati
 	const FGameplayEffectSpecHandle SpecHandle = SourceASC->MakeOutgoingSpec(DamageEffectClass,GetAbilityLevel(),EffectContextHandle);
 	const FAuraGameplayTags GameplayTags = FAuraGameplayTags::Get();
 	
-	for (auto& Pair : DamageTypes)
+
+	TArray<FGameplayTag> DamageTypeKeys;
+	DamageTypes.GenerateKeyArray(DamageTypeKeys);
+	TArray<FScalableFloat> DamageTypeValues;
+	DamageTypes.GenerateValueArray(DamageTypeValues);
+	for (const auto& DamageTypeTag : DamageTypeTags)
 	{
-		const float ScaledDamage = Pair.Value.GetValueAtLevel(GetAbilityLevel());
-		UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle,Pair.Key,ScaledDamage);
+		int32 Index = DamageTypeKeys.Find(DamageTypeTag);
+		if ( Index > -1)
+		{
+			const float ScaledDamage = DamageTypeValues[Index].GetValueAtLevel(GetAbilityLevel());
+			UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle,DamageTypeTag,ScaledDamage);
+			continue;
+		}
+		UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle,DamageTypeTag,0.f);
 	}
-	
 	
 	Projectile->DamageEffectSpecHandle = SpecHandle;
 	
