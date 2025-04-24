@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
 #include "GameplayEffect.h"
+#include "NiagaraSystem.h"
 #include "GameFramework/Character.h"
 #include "Interaction/CombatInterface.h"
 #include "AuraCharacterBase.generated.h"
@@ -28,12 +29,17 @@ public:
 	virtual bool IsDead_Implementation() const override;
 	virtual AActor* GetAvatar_Implementation() override;
 	virtual TArray<FTaggedMontage> GetAttackMontages_Implementation() override;
+	virtual UNiagaraSystem* GetBloodEffect_Implementation() override;
+	virtual FTaggedMontage GetTaggedMontageByTag_Implementation(const FGameplayTag& MontageTag) override;
 
 	UFUNCTION(NetMulticast,Reliable)
 	virtual void MulticastHandleDeath();
 
 	UPROPERTY(EditAnywhere,Category = "Combat")
 	TArray<FTaggedMontage> AttackMontages;
+
+	UPROPERTY(EditAnywhere,Category = "Combat")
+	USoundBase* DeadSound;
 protected:
 	virtual void BeginPlay() override;
 	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="Combat")
@@ -47,6 +53,9 @@ protected:
 
 	UPROPERTY(EditAnywhere,Category="Combat")
 	FName RightHandSocketName;
+
+	UPROPERTY(EditAnywhere,Category="Combat")
+	FName TailSocketName;
 
 	bool bDead = false;
 	
@@ -87,6 +96,9 @@ protected:
 
 	UPROPERTY(EditAnywhere,BlueprintReadOnly)
 	TObjectPtr<UMaterialInstance> WeaponDissolveMaterialInstance;
+
+	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="Combat")
+	UNiagaraSystem* BloodEffect;
 private:
 
 	UPROPERTY(EditAnywhere,Category="Attributes")

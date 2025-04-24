@@ -5,7 +5,6 @@
 
 #include "AbilitySystemBlueprintLibrary.H"
 #include "AbilitySystemComponent.h"
-#include "VisualizeTexture.h"
 #include "Actor/AuraProjectile.h"
 #include "Interaction/CombatInterface.h"
 #include  "UeGAS/Public/AuraGameplayTags.h"
@@ -24,7 +23,7 @@ void UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocati
 	const bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority();
 	if (!bIsServer) return;
 
-	const FVector SocketLocation = ICombatInterface::Execute_GetCombatSocketLocation(GetAvatarActorFromActorInfo(),FAuraGameplayTags::Get().Montage_Attack_Weapon);
+	const FVector SocketLocation = ICombatInterface::Execute_GetCombatSocketLocation(GetAvatarActorFromActorInfo(),FAuraGameplayTags::Get().CombatSocket_Weapon);
 	FRotator Rotation = (ProjectileTargetLocation - SocketLocation).Rotation();
 	
 	FTransform SpawnTransform;
@@ -64,7 +63,6 @@ void UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocati
 		{
 			UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle,DamageTypeTag,0.f);
 		}
-		//GEngine->AddOnScreenDebugMessage(-1,2,FColor::Red,FString::Printf(TEXT("%s"),*DamageTypeTag.ToString()));
 	}
 	
 	Projectile->DamageEffectSpecHandle = SpecHandle;
