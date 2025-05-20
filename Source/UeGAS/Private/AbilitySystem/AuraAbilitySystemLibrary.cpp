@@ -5,6 +5,7 @@
 
 #include "AuraAbilityTypes.h"
 #include "Engine/OverlapResult.h"
+#include "Engine/SkeletalMeshSocket.h"
 #include "Game/AuraGameModeBase.h"
 #include "Interaction/CombatInterface.h"
 #include "Kismet/GameplayStatics.h"
@@ -158,4 +159,13 @@ bool UAuraAbilitySystemLibrary::IsNotFriend(AActor* FirstActor, AActor* SecondAc
 	const bool bSecondIsPlayer = SecondActor->ActorHasTag(FName("Player"));
 
 	return bFirstIsPlayer != bSecondIsPlayer;
+}
+
+void UAuraAbilitySystemLibrary::SetMeshSocketLocation(const USkeletalMeshComponent* SkeletalMeshComponent,FName SocketName,FVector RelativeLocation)
+{
+	 USkeletalMeshSocket* Socket = const_cast<USkeletalMeshSocket*>(SkeletalMeshComponent->GetSocketByName(SocketName));
+	if (Socket)
+	{
+		Socket->RelativeLocation = RelativeLocation; 
+	}
 }
