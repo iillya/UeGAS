@@ -155,10 +155,10 @@ void UAuraAbilitySystemLibrary::GetLivePlayerWithinRadius(const UObject* WorldCo
 
 bool UAuraAbilitySystemLibrary::IsNotFriend(AActor* FirstActor, AActor* SecondActor)
 {
-	const bool bFirstIsPlayer = FirstActor->ActorHasTag(FName("Player"));
-	const bool bSecondIsPlayer = SecondActor->ActorHasTag(FName("Player"));
-
-	return bFirstIsPlayer != bSecondIsPlayer;
+	const bool bBothArePlayers = FirstActor->ActorHasTag(FName("Player")) and SecondActor->ActorHasTag(FName("Player"));
+	const bool bBothAreEnemies = FirstActor->ActorHasTag(FName("Enemy")) and SecondActor->ActorHasTag(FName("Enemy"));
+	const bool bFriends = bBothArePlayers or bBothAreEnemies;
+	return !bFriends;
 }
 
 void UAuraAbilitySystemLibrary::SetMeshSocketLocation(const USkeletalMeshComponent* SkeletalMeshComponent,FName SocketName,FVector RelativeLocation)
