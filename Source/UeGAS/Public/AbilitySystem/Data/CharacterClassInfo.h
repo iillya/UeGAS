@@ -17,7 +17,7 @@ enum class ECharacterClass : uint8
 };
 
 USTRUCT(BlueprintType)
-struct FCharacterClassDefailtInfo
+struct FCharacterClassDefaultInfo
 {
 	GENERATED_BODY()
 
@@ -26,6 +26,9 @@ struct FCharacterClassDefailtInfo
 
 	UPROPERTY(EditDefaultsOnly,Category = "Class Defaults")
 	TArray<TSubclassOf<UGameplayAbility>> StartUpAbilities;
+
+	UPROPERTY(EditDefaultsOnly,Category = "Class Defaults")
+	FScalableFloat XPReward = FScalableFloat();
 };
 /**
  * 
@@ -38,7 +41,7 @@ class UEGAS_API UCharacterClassInfo : public UDataAsset
 public:
 
 	UPROPERTY(EditDefaultsOnly,Category = "Character Class Defaults")
-	TMap<ECharacterClass,FCharacterClassDefailtInfo> CharacterClassInformation;
+	TMap<ECharacterClass,FCharacterClassDefaultInfo> CharacterClassInformation;
 	
 	UPROPERTY(EditDefaultsOnly,Category = "Class Defaults")
 	TSubclassOf<UGameplayEffect> SecondaryAttribute;
@@ -52,5 +55,5 @@ public:
 	UPROPERTY(EditDefaultsOnly,Category = "Common Class Defaults|Damage")
 	TObjectPtr<UCurveTable> DamageCalculationCoefficients;
 	
-	FCharacterClassDefailtInfo GetClassDefaultInfo(ECharacterClass CharacterClass);
+	FCharacterClassDefaultInfo GetClassDefaultInfo(ECharacterClass CharacterClass);
 };

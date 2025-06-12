@@ -51,7 +51,7 @@ void UAuraAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* World
 	AActor*AvatarActor = ASC->GetAvatarActor();
 	
 	UCharacterClassInfo* CharacterClassInfo = GetCharacterClassInfo(WorldContextObject);
-	FCharacterClassDefailtInfo ClassDefaultInfo = CharacterClassInfo->GetClassDefaultInfo(CharacterClass);
+	FCharacterClassDefaultInfo ClassDefaultInfo = CharacterClassInfo->GetClassDefaultInfo(CharacterClass);
 
 	FGameplayEffectContextHandle PrimaryAttributesContextHandle = ASC->MakeEffectContext();
 	PrimaryAttributesContextHandle.AddSourceObject(AvatarActor);
@@ -78,7 +78,7 @@ void UAuraAbilitySystemLibrary::GiveStartupAbilities(const UObject* WorldContext
 		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass,1);
 		ASC->GiveAbility(AbilitySpec);
 	}
-	const FCharacterClassDefailtInfo& DefaultInfo = CharacterClassInfo->GetClassDefaultInfo(CharacterClass);
+	const FCharacterClassDefaultInfo& DefaultInfo = CharacterClassInfo->GetClassDefaultInfo(CharacterClass);
 	for (TSubclassOf<UGameplayAbility> AbilityClass : DefaultInfo.StartUpAbilities)
 	{
 		if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(ASC->GetAvatarActor()))
@@ -88,6 +88,17 @@ void UAuraAbilitySystemLibrary::GiveStartupAbilities(const UObject* WorldContext
 		}
 		
 	}
+}
+
+int32 UAuraAbilitySystemLibrary::GetXPRewardForClassAndLevel(const UObject* WorldContextObject,
+	ECharacterClass CharacterClass, int32 CharacterLevel)
+{
+	UCharacterClassInfo* CharacterClassInfo = GetCharacterClassInfo(WorldContextObject);
+	if (CharacterClassInfo == nullptr) return 0;
+
+	const FCharacterClassDefaultInfo Info = CharacterClassInfo->GetClassDefaultInfo(CharacterClass);
+	const float XPReward = Info.XPReward.GetValueAtLevel(CharacterLevel);
+	return static_cast<int32>(XPReward);
 }
 
 UCharacterClassInfo* UAuraAbilitySystemLibrary::GetCharacterClassInfo(const UObject* WorldContextObject)
@@ -161,11 +172,6 @@ bool UAuraAbilitySystemLibrary::IsNotFriend(AActor* FirstActor, AActor* SecondAc
 	return !bFriends;
 }
 
-void UAuraAbilitySystemLibrary::SetMeshSocketLocation(const USkeletalMeshComponent* SkeletalMeshComponent,FName SocketName,FVector RelativeLocation)
-{
-	 USkeletalMeshSocket* Socket = const_cast<USkeletalMeshSocket*>(SkeletalMeshComponent->GetSocketByName(SocketName));
-	if (Socket)
-	{
-		Socket->RelativeLocation = RelativeLocation; 
-	}
-}
+
+
+
