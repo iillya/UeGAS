@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Player/AuraPlayerState.h"
 #include "UI/WidgetController/AuraWidgetController.h"
 #include "OverlayWidgetController.generated.h"
 
@@ -29,6 +30,7 @@ struct FUIWidgetRow : public FTableRowBase
 	UTexture2D* Image = nullptr;
 };
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPlayerStatChangedSinature, float, NewValve);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAttributeChangedSinature, float, NewValve);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMessageWidgetRowSignature,FUIWidgetRow,Row);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAbilityInfoSignature,const FAuraAbilityInfo&,Info);
@@ -66,6 +68,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable,Category="GAS|XP")
 	FOnAttributeChangedSinature OnXPPercentChangedDelegate;
+
+	UPROPERTY(BlueprintAssignable,Category="GAS|Level")
+	FOnPlayerStatChangedSinature OnPlayerLevelChangedDelegate;
 
 protected:
 	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category = "WidgetData")
