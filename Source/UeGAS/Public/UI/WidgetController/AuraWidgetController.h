@@ -6,6 +6,7 @@
 #include "AbilitySystemComponent.h"
 #include "UObject/NoExportTypes.h"
 #include "AuraWidgetController.generated.h"
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPlayerStatChangedSinature, int32, NewValve);
 
 USTRUCT(BlueprintType)
 struct FWidgetControllerParams
